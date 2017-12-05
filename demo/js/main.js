@@ -1,12 +1,3 @@
-/*
-==============
-JS for - Indonesialeaks
-Developed and Customized by
-Muhammad Adam Firdaus
-http://www.muhammadadamfirdaus.com/
-==============
- */
-
 $(function(){
   // PreLoad
   setTimeout(function removepreload(){
@@ -37,9 +28,8 @@ $(function(){
   menumobileClone = menumobile.clone(true);
   menumobile.remove();
 
+  var w = $(window).width();
   function mobile(){
-    var w = $(window).width();
-
     if(w <= 800) {
       // General Mobile Devices
       /* menu mobile */
@@ -48,6 +38,17 @@ $(function(){
       }
       mobileMenu();
       /* end menu mobile */
+      // turn on autoplay anggota on mobile
+      if($('#home').length){
+        anggota.autoplay.start();
+        anggota.update();
+        mitra.autoplay.start();
+        mitra.update();
+        inisiator.autoplay.start();
+        inisiator.update();
+      } else {
+        // detailContainer.params.freeMode = true;
+      }
     } else {
       // Desktop Begin
       /* menu desktop */
@@ -151,53 +152,90 @@ $(function(){
   }
 });
 
-var mainContainer = new Swiper('.main-container', {
-  direction: 'vertical',
-  mousewheel: true,
-  hashNavigation: {
-    replaceState: true,
-    watchState: true
-  },
-  init: false
-});
-
 var header = $('header');
-mainContainer.on('init, slideChange', function(){
-  if(mainContainer.activeIndex > 0){
-    header.addClass('active');
-  } else {
-    header.removeClass('active');
-  }
-});
-
-mainContainer.on('init', function(){
-  console.log('init');
-  if(mainContainer.activeIndex > 0){
-    header.addClass('active');
-    
-  } else {
-    header.removeClass('active');
-  }
-});
-
+if($('#home').length){
+  var homeContainer = new Swiper('#home', {
+    direction: 'vertical',
+    mousewheel: true,
+    hashNavigation: {
+      replaceState: true,
+      watchState: true
+    },
+    init: false
+  });
+  
+  homeContainer.on('init, slideChange', function(){
+    if(homeContainer.activeIndex > 0){
+      header.addClass('active');
+    } else {
+      header.removeClass('active');
+    }
+  });
+  
   if($('.swiper-slide-active.latest').length){
     console.log('swiper ke berapa nih');
   } else {
     console.log('hide');
   }
-
-mainContainer.init();
-
-var headline = new Swiper('.headline', {
-  direction: 'horizontal'
-});
-
-var partners = new Swiper('.partners', {
-  slidesPerView: 4,
-  spaceBetween: 30,
-  breakpoints: {
-    800: {
-      slidesPerView: 1
+  
+  homeContainer.init();
+  
+  var headline = new Swiper('.headline', {
+    direction: 'horizontal'
+  });
+  
+  var anggota = new Swiper('.anggota', {
+    slidesPerView: 5,
+    slidesPerColumn: 2,
+    spaceBetween: 10,
+    breakpoints: {
+      800: {
+        slidesPerView: 1
+      },
+      375: {
+        slidesPerView: 1,
+        slidesPerColumn: 1
+      }
     }
-  }
-});
+  });
+  
+  var mitra = new Swiper('.mitra', {
+    slidesPerView: 5,
+    breakpoints: {
+      800:  {
+        slidesPerView: 1
+      }
+    }
+  });
+
+  var inisiator = new Swiper('.swiper-container.inisiator', {
+    slidesPerView: 3,
+    spaceBetween: 0,
+    breakpoints: {
+      600:  {
+        slidesPerView: 1
+      }
+    }
+  });
+} else {
+  var detailContainer = new Swiper('#detail', {
+    direction: 'vertical',
+    mousewheel: true,
+    hashNavigation: {
+      replaceState: true,
+      watchState: true
+    },
+    init: false
+  });
+  
+  detailContainer.on('init, slideChange', function(){
+    if(detailContainer.activeIndex > 0){
+      header.addClass('active');
+    } else {
+      header.removeClass('active');
+    }
+  });
+
+  detailContainer.init();
+}
+
