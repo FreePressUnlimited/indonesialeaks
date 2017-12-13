@@ -185,6 +185,7 @@ if($('#home').length){
   });
   
   var anggota = new Swiper('.anggota', {
+    loop: true,
     slidesPerView: 5,
     slidesPerColumn: 2,
     spaceBetween: 10,
@@ -209,7 +210,7 @@ if($('#home').length){
   });
 
   var inisiator = new Swiper('.swiper-container.inisiator', {
-    slidesPerView: 3,
+    slidesPerView: 4,
     spaceBetween: 0,
     breakpoints: {
       600:  {
