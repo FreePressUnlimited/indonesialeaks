@@ -40,6 +40,12 @@ $(function(){
       /* end menu mobile */
       // turn on autoplay anggota on mobile
       if($('#home').length){
+        homeContainer.params.autoHeight = true;
+        homeContainer.update();
+        /* for auto height */
+        var swiperSlideHomeContainer = $('.swiper-container.main-container > .swiper-wrapper .swiper-slide');
+        var swiperSlideHomeContainerFirst = $('.swiper-container.main-container > .swiper-wrapper .swiper-slide:nth-of-type(1)');
+        swiperSlideHomeContainer.not(swiperSlideHomeContainerFirst).removeAttr('style');
         anggota.autoplay.start();
         anggota.update();
         mitra.autoplay.start();
@@ -157,6 +163,7 @@ if($('#home').length){
   var homeContainer = new Swiper('#home', {
     direction: 'vertical',
     mousewheel: true,
+    freeMode: true,
     hashNavigation: {
       replaceState: true,
       watchState: true
@@ -164,24 +171,50 @@ if($('#home').length){
     init: false
   });
   
+  // home container when scrolled
   homeContainer.on('init, slideChange', function(){
     if(homeContainer.activeIndex > 0){
       header.addClass('active');
     } else {
       header.removeClass('active');
     }
+
+    // autoplay on tutorial section
+    if($('.swiper-slide-next.section-tutorial').length || $('.swiper-slide-prev.section-tutorial').length){
+      // console.log('yak!');
+      tutorial.autoplay.start();
+    }
   });
   
   if($('.swiper-slide-active.latest').length){
     console.log('swiper ke berapa nih');
   } else {
-    console.log('hide');
+    // console.log('hide');
   }
   
   homeContainer.init();
   
   var headline = new Swiper('.headline', {
     direction: 'horizontal'
+  });
+
+  var tutorial = new Swiper('.swiper-container.tutorial', {
+    slidesPerView: 1,
+    loop: true,
+    autoplay: {
+      delay: 3000
+    },
+    speed: 2000,
+    pagination: {
+      el: '.tutorial-pagination',
+      clickable: true,
+    }
+  });
+
+  var tutorialNumber = $('.tutorial .w-30 > a');
+  tutorialNumber.on('click', function(e){
+    e.preventDefault();
+    tutorial.slideNext();
   });
   
   var anggota = new Swiper('.anggota', {
@@ -221,6 +254,7 @@ if($('#home').length){
 } else {
   var detailContainer = new Swiper('#detail', {
     direction: 'vertical',
+    freeMode: true,
     mousewheel: true,
     hashNavigation: {
       replaceState: true,
